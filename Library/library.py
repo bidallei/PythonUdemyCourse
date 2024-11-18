@@ -1,5 +1,7 @@
 from tkinter import *
-import backend
+from backend import Database
+
+database = Database("books.db")
 
 # Function to populate text fields based on selected item in the listbox
 def get_selected_row(event):
@@ -24,28 +26,28 @@ def get_selected_row(event):
 # Function to display all records in the listbox
 def view_command():
     record_display.delete(0, END)
-    for row in backend.view():
+    for row in database.view():
         record_display.insert(END, row)
 
 # Function to search for a record based on the text fields
 def search_command():
     record_display.delete(0, END)
-    for row in backend.search(title_text.get(), author_text.get(), year_text.get(), isbn_text.get()):
+    for row in database.search(title_text.get(), author_text.get(), year_text.get(), isbn_text.get()):
         record_display.insert(END, row)
 
 # Function to add a new record using the values in the text fields
 def add_command():
-    backend.insert(title_text.get(), author_text.get(), year_text.get(), isbn_text.get())
+    database.insert(title_text.get(), author_text.get(), year_text.get(), isbn_text.get())
     view_command()
 
 # Function to update the selected record with the new values in the text fields
 def update_command():
-    backend.update(selected_tuple[0], title_text.get(), author_text.get(), year_text.get(), isbn_text.get())
+    database.update(selected_tuple[0], title_text.get(), author_text.get(), year_text.get(), isbn_text.get())
     view_command()
 
 # Function to delete the selected record
 def delete_command():
-    backend.delete(selected_tuple[0])
+    database.delete(selected_tuple[0])
     view_command()
 
 # Function to close the main window
